@@ -85,3 +85,46 @@
 .counter {
   font-size: 16px;
 }
+
+.theme-selection {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.theme-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.theme-button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.theme-button:hover {
+  background-color: #d9d9d9;
+}
+
+.instruction {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.theme-dropdown {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  display: block;
+}
