@@ -3,22 +3,44 @@ import "./App.css"; // Import du fichier CSS
 
 function App() {
   const [index, setIndex] = useState(0); // Index actuel
-  const cards = ["withdraw money", "deposit money", "check balance"]; // Liste des "cartes"
+  const [isFlipped, setIsFlipped] = useState(false); // Etat pour savoir si la carte est retournée
+  const cards = [
+    { front: "withdraw money", back: "retirer de l'argent" },
+    { front: "deposit money", back: "déposer de l'argent" },
+    { front: "check balance", back: "vérifier le solde" },
+  ]; // Liste des "cartes"
 
   // Gestion des changements de carte
   const handlePrev = () => {
     setIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
+    setIsFlipped(false); // Réinitialise l'état de retournement quand on change de carte
   };
 
   const handleNext = () => {
     setIndex((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
+    setIsFlipped(false); // Réinitialise l'état de retournement quand on change de carte
+  };
+
+  // Fonction pour retourner la carte
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped); // Change l'état pour retourner la carte
   };
 
   return (
     <div className="container">
       {/* Carte */}
-      <div className="card">
-        <p className="text">{cards[index]}</p>
+      <div
+        className={`card ${isFlipped ? "flipped" : ""}`}
+        onClick={handleFlip} // Ajoute l'événement de clic pour retourner la carte
+      >
+        <div className="card-inner">
+          <div className="card-front">
+            <p className="text">{cards[index].front}</p>
+          </div>
+          <div className="card-back">
+            <p className="text">{cards[index].back}</p>
+          </div>
+        </div>
       </div>
 
       {/* Boutons de navigation */}
