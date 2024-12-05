@@ -6,24 +6,41 @@ function App() {
   const [selectedTheme, setSelectedTheme] = useState(null); // Thème sélectionné
   const [index, setIndex] = useState(0); // Index actuel
   const [isFlipped, setIsFlipped] = useState(false); // État pour savoir si la carte est retournée
+  const [isChanging, setIsChanging] = useState(false); // État pour bloquer les actions pendant le changement
 
   // Récupérer les cartes du thème sélectionné
   const cards = selectedTheme ? data[selectedTheme] : [];
 
-  // Gestion des changements de carte
+  // Fonction pour changer de carte
+  const changeCard = (newIndex) => {
+    if (isChanging) return; // Empêche les actions pendant une transition
+    if (isFlipped) {
+      // Si la carte est en verso, attendre qu'elle retourne au recto
+      setIsChanging(true); // Bloque les actions
+      setIsFlipped(false); // Retourne la carte au recto
+      setTimeout(() => {
+        setIndex(newIndex); // Change l'index après le retour
+        setIsChanging(false); // Libère les actions
+      }, 300); // Délai synchronisé avec l'animation CSS
+    } else {
+      // Si la carte est déjà au recto, changer immédiatement
+      setIndex(newIndex);
+    }
+  };
+
   const handlePrev = () => {
-    setIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
-    setIsFlipped(false); // Réinitialise l'état de retournement quand on change de carte
+    const newIndex = index === 0 ? cards.length - 1 : index - 1;
+    changeCard(newIndex);
   };
 
   const handleNext = () => {
-    setIndex((prev) => (prev === cards.length - 1 ? 0 : prev + 1));
-    setIsFlipped(false); // Réinitialise l'état de retournement quand on change de carte
+    const newIndex = index === cards.length - 1 ? 0 : index + 1;
+    changeCard(newIndex);
   };
 
   // Fonction pour retourner la carte
   const handleFlip = () => {
-    setIsFlipped(!isFlipped); // Change l'état pour retourner la carte
+    if (!isChanging) setIsFlipped(!isFlipped); // Retourne la carte si aucune transition en cours
   };
 
   // Fonction pour changer de thème
@@ -72,13 +89,13 @@ function App() {
 
           {/* Boutons de navigation */}
           <div className="navigation">
-            <button className="button" onClick={handlePrev}>
+            <button className="button" onClick={handlePrev} disabled={isChanging}>
               &#8592;
             </button>
             <span className="counter">
               {index + 1}/{cards.length}
             </span>
-            <button className="button" onClick={handleNext}>
+            <button className="button" onClick={handleNext} disabled={isChanging}>
               &#8594;
             </button>
           </div>
