@@ -1,21 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import QuizzPage from './QuizzPage.jsx'; // Page du quiz
-import HomePage from './HomePage'; // Page accueil
+import ReactDOM from 'react-dom/client'; // Utilise `react-dom/client` pour React 18+
+import App from './App';
 
-
+// Sélectionne l'élément root
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// Rends l'application
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        {/* Définissez les routes ici */}
-        <Route path="/" element={<QuizzPage />} /> {/* Page d'accueil */}
-        <Route path="/lll" element={<HomePage />} /> {/* Page d'accueil */}
-
-      </Routes>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
